@@ -1,5 +1,5 @@
 ARG rocksdb_version="6.15.2"
-ARG ruby_version="2.7"
+ARG ruby_version="2.7.2"
 
 FROM golang:alpine as build-stage
 ARG rocksdb_version
