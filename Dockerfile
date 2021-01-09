@@ -1,7 +1,8 @@
-FROM golang:alpine as build-stage
-
 ARG rocksdb_version="6.15.2"
 ARG ruby_version="2.7"
+
+FROM golang:alpine as build-stage
+ARG rocksdb_version
 
 RUN apk add --update --no-cache build-base linux-headers git cmake bash perl
 RUN apk add --update --no-cache zlib zlib-dev bzip2 bzip2-dev snappy snappy-dev lz4 lz4-dev zstd zstd-dev gflags
@@ -20,6 +21,7 @@ RUN cd /tmp && \
     rm -R /tmp/rocksdb/
 
 FROM ruby:${ruby_version}-alpine
+ARG ruby_version
 COPY --from=build-stage /usr/local/rocksdb /usr/local/
 
 RUN apk add --no-cache --update --virtual=build-dependencies build-base linux-headers gcc g++ && \
